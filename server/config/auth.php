@@ -18,14 +18,6 @@ return [
         'passwords' => 'users',
     ],
 
-    // configuracion del guardia
-    'guards' => [
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
-        ],
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -78,6 +70,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
 
         // 'users' => [
         //     'driver' => 'database',
