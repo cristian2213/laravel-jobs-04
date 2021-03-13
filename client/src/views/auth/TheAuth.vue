@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 col-sx-6">
-      <h1 class="display-4">Sign up</h1>
+      <!-- <h1 class="display-4">Sign up</h1>
       <p>Sign up to have access to all our offers</p>
 
       <b-form>
@@ -20,7 +20,7 @@
             trim
           ></b-form-input>
         </b-form-group>
-      </b-form>
+      </b-form> -->
     </div>
   </div>
 </template>
@@ -48,5 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+body {
+}
 </style>

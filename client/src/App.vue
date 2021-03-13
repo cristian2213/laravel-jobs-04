@@ -1,20 +1,15 @@
 <template>
-  <div id="app" class="container">
+  <b-container id="app" fluid>
     <router-view></router-view>
-  </div>
+  </b-container>
 </template>
 
 <style>
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a .active {
-  color: #42b983;
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
 }
 </style>
