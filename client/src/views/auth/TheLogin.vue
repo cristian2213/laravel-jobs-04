@@ -1,17 +1,20 @@
 <template>
   <b-container fluid>
     <b-row class="wrapper-login">
-      <b-col class="bg-custom" cols="12" sm="12" md="8">
+      <b-col class="bg-custom p-5" cols="12" sm="12" md="8">
         <b-row align-v="end" class="h-100">
-          <h1 class="login-title">Login to you enjoy the best experience</h1>
-          <p class="paragraph-login">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            dolorum sequi vel tenetur corrupti! Cumque sunt architecto nesciunt
-            eveniet inventore minima quisquam laborum minus esse, temporibus
-            sequi natus, enim voluptas ipsum at repellat. Provident blanditiis
-            atque nam animi obcaecati! Atque ipsam molestiae explicabo
-            exercitationem omnis quia aspernatur dicta at amet!
-          </p>
+          <b-col>
+            <h1 class="login-t itle">Login to you enjoy the best experience</h1>
+            <p class="paragraph-login">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
+              dolorum sequi vel tenetur corrupti! Cumque sunt architecto
+              nesciunt eveniet inventore minima quisquam laborum minus esse,
+              temporibus sequi natus, enim voluptas ipsum at repellat. Provident
+              blanditiis atque nam animi obcaecati! Atque ipsam molestiae
+              explicabo exercitationem omnis quia aspernatur dicta at amet!
+            </p>
+            <span class="border-down"></span>
+          </b-col>
         </b-row>
       </b-col>
       <!-- 
@@ -72,7 +75,8 @@ export default {
 <style scoped>
 .wrapper-login {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   background: #ccc;
 }
@@ -82,5 +86,11 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+.border-down {
+  display: block;
+  margin: 1rem 0 0 0 !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.524);
 }
 </style>

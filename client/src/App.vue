@@ -12,4 +12,8 @@
   text-decoration: none;
   list-style: none;
 }
+
+body {
+  height: 100% !important;
+}
 </style>
