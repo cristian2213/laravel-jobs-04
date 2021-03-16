@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VacanteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +22,15 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::post('register', 'App\Http\Controllers\UserController@register');
-Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+// Login and Register to lets access to the platform
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
 
-    Route::post('user', 'App\Http\Controllers\UserController@getAuthenticatedUser');
+    // get user authenticated
+    Route::post('user', [UserController::class, 'getAuthenticatedUser']);
+
+    // Routes Vacantes
+    Route::apiResource('vacantes', VacanteController::class);
 });
