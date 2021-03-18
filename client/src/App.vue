@@ -10,6 +10,7 @@
 :root {
   --font-family-roboto: "Roboto", sans-serif;
   --main-color: #8615ff;
+  --main-color-hover: #7500f2;
   --second-color: #8d23ff;
   --very-dark: #000000;
   --danger-color: #ff3f68;
@@ -54,5 +55,6 @@ form div > input::placeholder {
 
 .modal-title {
   color: var(--main-color) !important;
+  font-weight: bold;
 }
 </style>

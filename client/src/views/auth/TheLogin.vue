@@ -28,6 +28,18 @@
 
       <!-- //****** Login Start *********************************************************************** -->
       <b-col class="bg-custom-login p-5" cols="12" sm="12" md="4">
+        <!-- Alert start -->
+        <b-alert
+          :show="dismissCountDown"
+          dismissible
+          class="custom-bg-alert text-white"
+          @dismissed="dismissCountDown = 0"
+          @dismiss-count-down="countDownChanged"
+        >
+          This alert will dismiss after {{ dismissCountDown }} seconds...
+        </b-alert>
+
+        <!-- End alert -->
         <div align-h="center" class="pt-4 text-center">
           <div class="d-flex justify-content-center">
             <img
@@ -43,44 +55,47 @@
         </div>
 
         <div class="mt-4">
-          <b-form class="login-form">
+          <b-form @submit.prevent="submitHandler" class="login-form" novalidate>
             <b-form-group
               id="fieldset-1"
               label="Enter your Email"
               label-for="email"
-              valid-feedback="Thank you!"
-              :invalid-feedback="invalidFeedback"
+              :valid-feedback="emailFeedback"
+              :invalid-feedback="invalidFeedbackEmail"
               :state="state"
             >
               <!-- State: pone el input correcto -->
               <b-form-input
                 id="email"
-                v-model="email"
+                v-model.trim="email"
                 :state="state"
                 trim
                 placeholder="Enter your Email"
                 maxlength="60"
                 class="my-2 p-2"
+                type="email"
+                autocomplete="off"
               ></b-form-input>
             </b-form-group>
 
             <b-form-group
-              id="fieldset-1"
-              label="Enter your Email"
-              label-for="email"
-              valid-feedback="Thank you!"
-              :invalid-feedback="invalidFeedback"
-              :state="state"
+              id="fieldset-2"
+              label="Enter your Password"
+              label-for="password"
+              :valid-feedback="passFeedback"
+              :invalid-feedback="invalidFeedbackPass"
+              :state="passwordState"
             >
               <!-- State: pone el input correcto -->
               <b-form-input
-                id="email"
-                v-model="email"
-                :state="state"
+                id="password"
+                v-model.trim="password"
+                :state="passwordState"
                 trim
-                placeholder="Enter your Email"
+                placeholder="Enter your Password"
                 maxlength="60"
                 class="my-2 p-2"
+                type="password"
               ></b-form-input>
             </b-form-group>
 
@@ -96,7 +111,9 @@
                 lg="6"
                 class="d-flex flex-row justify-content-end"
               >
-                <b-button v-b-modal.forgetPassword>Forget Password?</b-button>
+                <a v-b-modal.forgetPassword class="forget-password">
+                  Forget Password?
+                </a>
 
                 <!-- Modal -->
                 <b-modal
@@ -129,7 +146,7 @@
                           <!-- State: pone el input correcto -->
                           <b-form-input
                             id="email"
-                            v-model="email"
+                            v-model.trim="email"
                             :state="state"
                             trim
                             placeholder="Enter your Email"
@@ -141,9 +158,9 @@
                         <b-button-group
                           class="w-80 d-block text-center mt-4 p-2"
                         >
-                          <b-button size="md" pill class="moda-button"
-                            >Reset Password</b-button
-                          >
+                          <button class="login-button rounded-pill p-2">
+                            Reset Password
+                          </button>
                         </b-button-group>
                       </b-form>
                     </main>
@@ -151,6 +168,19 @@
                 </b-modal>
                 <!-- End Modal -->
               </b-col>
+
+              <!-- Button Login -->
+              <b-col>
+                <b-button-group class="w-80 d-block text-center mt-4 p-2">
+                  <button
+                    class="login-button rounded-pill p-2"
+                    @click="showAlert"
+                  >
+                    Login
+                  </button>
+                </b-button-group>
+              </b-col>
+              <!-- End Button Login -->
             </b-row>
           </b-form>
         </div>
@@ -165,21 +195,73 @@ export default {
   data() {
     return {
       email: "",
+      emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      emailValidated: false,
+      emailFeedback: "",
+      password: "",
+      passRegex: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{6,10}$/,
+      passValidated: false,
+      passFeedback: "",
       loginTitle: "Login to you enjoy the best experience",
-      modalShow: false,
+      alertError: null,
+      dismissSecs: 5,
+      dismissCountDown: 0,
     };
   },
 
   computed: {
     state() {
-      return this.email.length >= 4;
-    },
-    //! Acá quede pendiente validar el input con expresion regular y proceder a realizar los otros campos del login.
-    invalidFeedback() {
-      if (this.email.length > 0) {
-        return "Enter at least 4 characters.";
+      if (this.email.length === 0) {
+        return null;
       }
-      return "Please enter something.";
+      return this.emailValidated === true;
+    },
+
+    passwordState() {
+      if (this.password.length === 0) {
+        return null;
+      }
+      return this.passValidated === true;
+    },
+
+    invalidFeedbackEmail() {
+      if (this.email.length <= 10) {
+        this.emailValidated = false;
+        return "Please enter a validate email";
+      } else if (this.email.length > 10 && !this.emailRegex.test(this.email)) {
+        this.emailValidated = false;
+        return "Email invalidated, Please enter a real email";
+      } else {
+        this.emailValidated = true;
+        this.emailFeedback = "Great, that looks good.";
+        return;
+      }
+    },
+
+    invalidFeedbackPass() {
+      let invalidatedMessage =
+        "The password must have at least 6 characters and maximum 16, at least a digit, a lower case and a capital letter.";
+      /* 
+      Contraseña incorrecta: debe tener entre 6 y 10 caracteres, al menos un digito, una minúscula, una mayuscula. 
+       */
+      if (this.password.length <= 5) {
+        this.passValidated = false;
+        return invalidatedMessage;
+      } else if (
+        this.password.length >= 6 &&
+        this.password.length <= 10 &&
+        !this.passRegex.test(this.password)
+      ) {
+        this.passValidated = false;
+        return invalidatedMessage;
+      } else if (this.password.length > 10) {
+        this.passValidated = false;
+        return invalidatedMessage;
+      } else {
+        this.passValidated = true;
+        this.passFeedback = "Great, The password meets our security standard.";
+        return;
+      }
     },
 
     transformToUpperCase() {
@@ -195,6 +277,25 @@ export default {
       }
       let result = transformText.join(" ");
       return result;
+    },
+  },
+
+  methods: {
+    submitHandler() {
+      // check if all fields are filled and if they are validated
+      if (!this.emailValidated || !this.passValidated) {
+        this.alertError = true;
+        return;
+      }
+
+      this.alertError = false;
+    },
+
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
     },
   },
 };
@@ -260,6 +361,7 @@ export default {
   border: 1px solid var(--main-color);
   box-shadow: 0 0 0 0.2rem rgb(134 21 255 / 25%);
 }
+
 .was-validated .form-control:valid,
 .form-control.is-valid {
   border-color: var(--second-color);
@@ -279,9 +381,25 @@ export default {
   box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
 }
 
-.moda-button {
+.forget-password {
+  color: var(--main-color);
+  font-size: 0.9rem;
+}
+
+.login-button,
+.modal-button {
   width: 50%;
   color: var(--color-white);
+  background-color: var(--main-color);
+  border: 2px solid var(--second-color);
+}
+
+.login-button:hover,
+.modal-button:hover {
+  background-color: var(--main-color-hover);
+}
+
+.custom-bg-alert {
   background-color: var(--main-color);
 }
 </style>
