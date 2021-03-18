@@ -1,5 +1,5 @@
 <template>
-  <b-container id="app" fluid>
+  <b-container id="app" fluid class="p-0 m-0">
     <router-view></router-view>
   </b-container>
 </template>
@@ -11,22 +11,22 @@
   --font-family-roboto: "Roboto", sans-serif;
   --main-color: #8615ff;
   --second-color: #8d23ff;
-  --background-white: #f6fbff;
   --very-dark: #000000;
   --danger-color: #ff3f68;
   --secondary-danger-color: #ff5d80;
+  --color-white: #f6fbff;
+  --background-white: #f6fbff;
 }
 
 * {
-  margin: 0 !important;
-  padding: 0 !important;
+  /* margin: 0 !important; */
+  /* padding: 0 !important; */
   box-sizing: border-box;
   text-decoration: none;
   list-style: none;
 }
 
 body {
-  height: 100% !important;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -46,5 +46,13 @@ form div > input::placeholder {
 
 .invalid-feedback {
   color: var(--danger-color) !important;
+}
+
+.close {
+  color: var(--main-color) !important;
+}
+
+.modal-title {
+  color: var(--main-color) !important;
 }
 </style>

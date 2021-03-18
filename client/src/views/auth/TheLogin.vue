@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="p-0 m-0">
     <!-- //****** Header Start ********************************************************* */ -->
     <b-row class="wrapper-login">
       <b-col class="bg-custom p-5" cols="12" sm="12" md="8">
@@ -63,6 +63,95 @@
                 class="my-2 p-2"
               ></b-form-input>
             </b-form-group>
+
+            <b-form-group
+              id="fieldset-1"
+              label="Enter your Email"
+              label-for="email"
+              valid-feedback="Thank you!"
+              :invalid-feedback="invalidFeedback"
+              :state="state"
+            >
+              <!-- State: pone el input correcto -->
+              <b-form-input
+                id="email"
+                v-model="email"
+                :state="state"
+                trim
+                placeholder="Enter your Email"
+                maxlength="60"
+                class="my-2 p-2"
+              ></b-form-input>
+            </b-form-group>
+
+            <b-row align-h="center" class="form-links mt-3">
+              <b-col cols="6" sm="6" md="6" lg="6">
+                <input type="checkbox" name="remember" id="remember" />
+                <label for="remember" class="ml-2">Remember Me</label>
+              </b-col>
+              <b-col
+                cols="6"
+                sm="6"
+                md="6"
+                lg="6"
+                class="d-flex flex-row justify-content-end"
+              >
+                <b-button v-b-modal.forgetPassword>Forget Password?</b-button>
+
+                <!-- Modal -->
+                <b-modal
+                  id="forgetPassword"
+                  title="Enter your email"
+                  description="lasdjflkasd"
+                  hide-footer
+                  centered
+                >
+                  <div class="pt-0 pb-4 px-4">
+                    <header>
+                      <!-- title and steps -->
+                      <p>
+                        Please check your email, in a few seconds we will be
+                        send you a new link to you can restart the password.
+                      </p>
+                    </header>
+
+                    <main>
+                      <!-- Form -->
+                      <b-form>
+                        <b-form-group
+                          id="fieldset-1"
+                          label="Enter your Email"
+                          label-for="email"
+                          valid-feedback="Thank you!"
+                          :invalid-feedback="invalidFeedback"
+                          :state="state"
+                        >
+                          <!-- State: pone el input correcto -->
+                          <b-form-input
+                            id="email"
+                            v-model="email"
+                            :state="state"
+                            trim
+                            placeholder="Enter your Email"
+                            maxlength="60"
+                            class="my-2 p-2"
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-button-group
+                          class="w-80 d-block text-center mt-4 p-2"
+                        >
+                          <b-button size="md" pill class="moda-button"
+                            >Reset Password</b-button
+                          >
+                        </b-button-group>
+                      </b-form>
+                    </main>
+                  </div>
+                </b-modal>
+                <!-- End Modal -->
+              </b-col>
+            </b-row>
           </b-form>
         </div>
       </b-col>
@@ -77,6 +166,7 @@ export default {
     return {
       email: "",
       loginTitle: "Login to you enjoy the best experience",
+      modalShow: false,
     };
   },
 
@@ -187,5 +277,11 @@ export default {
 .form-control.is-invalid:focus {
   border-color: var(--secondary-danger-color);
   box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+}
+
+.moda-button {
+  width: 50%;
+  color: var(--color-white);
+  background-color: var(--main-color);
 }
 </style>
