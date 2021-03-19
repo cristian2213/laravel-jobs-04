@@ -14,22 +14,30 @@ class CreateVacantesTable extends Migration
     public function up()
     {
         Schema::create('vacantes', function (Blueprint $table) {
+            // basic fields
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('image');
-            $table->float('salary', 8, 2); // max= 8 digitos y decimales = 2
+            $table->string('image')->nullable();
+            $table->float('salary', 10, 2); // max= 8 digitos y decimales = 2
             $table->text('benetifs')->nullable();
-            $table->integer('vacancies');
+            $table->string('vacancies');
             $table->text('requirements');
             $table->text('functionalities');
+            $table->enum('state', ['active', 'inactive']);
 
 
-            // relationship
+            // relationship field name
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('experience_id');
+
+            // relationship table name
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('experience_id')->references('id')->on('experiences');
             $table->timestamps();
         });
     }
