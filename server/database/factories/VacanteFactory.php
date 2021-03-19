@@ -31,7 +31,7 @@ class VacanteFactory extends Factory
 
             "requirements" => $this->faker->text,
             "functionalities" => $this->faker->text,
-            "state" => $this->faker->randomElement(["active", "inactive"]),
+            "status" => $this->faker->randomElement(["active", "inactive"]),
 
         ];
     }

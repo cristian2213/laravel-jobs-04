@@ -51,4 +51,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // relationship with vacant
+    public function vacant()
+    {
+        return $this->hasMany(Vacante::class);
+    }
 }

@@ -24,7 +24,7 @@ class CreateVacantesTable extends Migration
             $table->string('vacancies');
             $table->text('requirements');
             $table->text('functionalities');
-            $table->enum('state', ['active', 'inactive']);
+            $table->enum('status', ['active', 'inactive']);
 
 
             // relationship field name
