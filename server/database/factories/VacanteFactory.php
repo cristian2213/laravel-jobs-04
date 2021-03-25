@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Vacante;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VacanteFactory extends Factory
@@ -31,6 +32,7 @@ class VacanteFactory extends Factory
 
             "requirements" => $this->faker->text,
             "functionalities" => $this->faker->text,
+            "date" => Carbon::now()->format('Y-m-d H:i:s'),
             "status" => $this->faker->randomElement(["active", "inactive"]),
 
         ];

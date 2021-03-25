@@ -24,6 +24,8 @@ class CreateVacantesTable extends Migration
             $table->string('vacancies');
             $table->text('requirements');
             $table->text('functionalities');
+            $table->dateTime('date');
+
             $table->enum('status', ['active', 'inactive']);
 
 

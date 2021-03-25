@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacante;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Dotenv\Repository\RepositoryInterface;
 
 class VacanteController extends Controller
 {
@@ -30,30 +28,51 @@ class VacanteController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->ajax()) {
+        if (!$request->ajax()) {
             // validate each field
-            $validator = Validator::make($request->all(), [
+
+            $validate = Validator::make($request->all(), [
                 'name' => ['required', 'max:100'],
                 'description' => ['required', 'string', 'max:4000'],
-                'image' => ['nullable', 'img'],
+                'image' => ['nullable', 'image', 'max:3000'],
                 'salary' => ['required', 'numeric'],
                 'benetifs' => ['nullable', 'string', 'max:4000'],
                 'vacancies' => ['required', 'string'],
                 'requirements' => ['required', 'string', 'max:4000'],
+                'date' => ['required', 'date_format:d-m-Y H:i:s'],
                 'status' => ['required', 'in:inactive,active'],
                 'category_id' => ['required', 'exists:App\Models\Category,id'],
                 'city_id' => ['required', 'exists:App\Models\City,id'],
                 'experience_id' => ['required', 'exists:App\Models\Experience,id'],
             ]);
 
-            if ($validator->fails()) {
-                return redirect()->json($validator, 400); // bad request
+
+            // validar que los datos estan llegando por medio de postman
+            if ($validate->fails()) {
+
+                return response()->json($validate->errors(), 400); // bad request
             }
 
-            // save vacante
-            $vacant = Auth::user()->vacant()->create($validator->validated());
+            // transform data a y-m- h:m:s
+            $oldDate = strtotime($validate->date);
+            $newData = date('Y-m-d H:i:s', $oldDate);
+            $validate->date = $newData;
 
-            return redirect()->json($vacant, 202); // request ok
+            // check if exists an image
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('vacant', 'public');
+                $validate->image = $path;
+            }
+
+            dd($validate->date);
+
+            // transform data a y-m- h:m:s
+            // /$validator->date = $validator->date->format('Y-m-d H:i:s');
+
+            // save vacante
+            $vacant = auth()->user()->vacant()->create($validate->validated());
+
+            return response()->json($vacant, 201); // request ok
         }
 
         return response()->json(["msg" => 'the data are invalidated'], 400);

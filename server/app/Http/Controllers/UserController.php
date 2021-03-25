@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class UserController extends Controller
 {
@@ -33,8 +33,8 @@ class UserController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-        } catch (TokenExpiredException $e) {
             return response()->json(['token_expired'], $e->getStatusCode());
+        } catch (TokenExpiredException $e) {
         } catch (TokenExpiredException $e) {
             return response()->json(['token_invalid'], $e->getStatusCode());
         } catch (TokenExpiredException $e) {
