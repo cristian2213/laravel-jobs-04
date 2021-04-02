@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\Vacante;
 use App\Models\Category;
 use App\Models\Experience;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('admin123'), // password
+            'remember_token' => Str::random(10),
+        ]);
+
         $users = User::factory(50)->create();
         $catories = Category::factory(50)->create();
         $cities = City::factory(50)->create();

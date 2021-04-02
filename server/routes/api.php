@@ -30,6 +30,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // get user authenticated
     Route::post('user', [UserController::class, 'getAuthenticatedUser']);
+    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('refresh', [UserController::class, 'refresh']);
 
     // Routes Vacantes
     Route::apiResource('vacantes', VacanteController::class);
