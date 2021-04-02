@@ -26,7 +26,7 @@ class VacanteFactory extends Factory
             "name" => $this->faker->name,
             "description" => $this->faker->text,
             "salary" => $this->faker->randomFloat($maxDecimals = 2, $min = 750000, $max = 8000000),
-            "benetifs" => $this->faker->text,
+            "benefits" => $this->faker->text,
 
             "vacancies" => $this->faker->randomElement(["1 semana", "2 semanas", "3 semanas", "1 mes", "2 meses", "3 meses", "4 meses", "5 meses", "6 meses", "7 o más meses"]),
 

@@ -20,7 +20,7 @@ class CreateVacantesTable extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->float('salary', 10, 2); // max= 8 digitos y decimales = 2
-            $table->text('benetifs')->nullable();
+            $table->text('benefits')->nullable();
             $table->string('vacancies');
             $table->text('requirements');
             $table->text('functionalities');

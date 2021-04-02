@@ -22,6 +22,7 @@ class Vacante extends Model
         'benefits',
         'vacancies',
         'requirements',
+        'functionalities',
         'date',
         'status',
         'category_id',
